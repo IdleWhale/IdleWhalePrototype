@@ -1,5 +1,6 @@
 var getDefaultPlayer = () => ({
-  lastUpdate: new Date().getTime()
+  lastUpdate: new Date().getTime(),
+  finishedTasks: {}
 })
 var player = getDefaultPlayer()
 var diff = 0
@@ -7,7 +8,7 @@ var diffMultiplier = 1
 let gameLoopIntervalId = 0
 
 function updateDisplay() {
-  // read title
+  updateDrowningTasks()
 }
 
 function gameLoop(diff) {
@@ -23,7 +24,7 @@ function gameLoop(diff) {
 
 function startGame() {
   // Some init job
-  alert("It works!")
+  gatherDrowningTasks()
   startInterval()
 }
 
