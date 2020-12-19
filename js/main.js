@@ -1,7 +1,8 @@
 var getDefaultPlayer = () => ({
   lastUpdate: new Date().getTime(),
   finishedTasks: {},
-  ongoingTasks: {}
+  ongoingTasks: {},
+  loreStage: 0
 })
 var player = getDefaultPlayer()
 var diff = 0
@@ -10,6 +11,7 @@ let gameLoopIntervalId = 0
 
 function updateDisplay() {
   updateDrowningTasks()
+  updateLore()
 }
 
 function gameLoop(diff) {
@@ -18,6 +20,9 @@ function gameLoop(diff) {
   diff = (diff || Math.min(thisUpdate - player.lastUpdate, 21600000)) * diffMultiplier
   //if (diffMultiplier > 1) console.log("SHAME")
   //else if (diffMultiplier < 1) console.log("SLOWMOTION")
+
+  checkLore()
+  processOngoingTasks(diff)
 
   updateDisplay()
   player.lastUpdate = thisUpdate

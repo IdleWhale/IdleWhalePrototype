@@ -18,6 +18,7 @@ class DrowningTask {
     }
     
     this.Req = req || []
+    this.Progress = new Decimal(0)
   }
 
   get Available() {
@@ -26,6 +27,11 @@ class DrowningTask {
     }
 
     return true
+  }
+
+  tick(diff) {
+    this.Progress = Decimal.min(this.Cost, this.Progress.plus(this.Inc.divide(1000).times(diff)))
+    return this.Progress.eq(this.Cost)
   }
 }
 window.DrowningTask = DrowningTask
@@ -59,7 +65,7 @@ function createDrowningTask(task) {
 }
 
 function updateOngoingTask(task) {
-  var shownText = `${task.ProgressText} ${getFinalProgressBar(player.ongoingTasks[task.Id], task.Cost, task.Inc)}`
+  var shownText = `${task.ProgressText} ${getFinalProgressBar(player.ongoingTasks[task.Id].Progress, task.Cost, task.Inc)}`
 
   var elm = ge(task.Id)
   elm.classList.add("taskProgress")
@@ -75,5 +81,20 @@ function updateDrowningTasks() {
 
 function startDrowningTask(task) {
   if (player.ongoingTasks.hasOwnProperty(task.Id) || !task.Available) return false
-  player.ongoingTasks[task.Id] = new Decimal(0)
+  player.ongoingTasks[task.Id] = task
+}
+
+function finishTask(task) {
+  drowningTasksShown.remove(task.Id)
+  ge(task.Id).remove()
+  if (!player.finishedTasks.hasOwnProperty(task.Id)) player.finishedTasks[task.Id] = new Decimal(0)
+  player.finishedTasks[task.Id] = player.finishedTasks[task.Id].plus(1)
+  
+  delete player.ongoingTasks[task.Id]
+}
+
+function processOngoingTasks(diff) {
+  for (let task of Object.values(player.ongoingTasks)) {
+    if (task.tick(diff)) finishTask(task)
+  }
 }

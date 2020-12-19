@@ -25,9 +25,12 @@
           "js/libs/dom.js",
           "js/libs/format.js",
           "js/libs/saving.js",
+          "js/libs/helper.js",
 
           "js/drowning.js",
           "js/drowning/intro.js",
+
+          "js/lore.js",
 
           "js/main.js"
         ]
@@ -36,7 +39,7 @@
           var script = document.createElement("script")
           script.src = file + "?v=" + cacheBust
           document.body.appendChild(script)
-          await sleep(20)
+          await sleep(33)
         }
 
         startGame()
@@ -45,8 +48,7 @@
   </head>
   
   <body>
-    <div id="drowning">
-
-    </div>
+    <div id="drowning"></div>
+    <div id="lore"></div>
   </body>
 </html>
