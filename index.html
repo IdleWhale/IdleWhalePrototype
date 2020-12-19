@@ -15,11 +15,7 @@
     <script src="js/libs/lodash.min.js"></script> <!-- Download manually from https://raw.githubusercontent.com/lodash/lodash/4.17.15-npm/lodash.min.js-->
 
     <script>
-      function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-
-      document.addEventListener("DOMContentLoaded", async function() {
+      document.addEventListener("DOMContentLoaded", function() {
         const loadList = [
           "js/libs/clipboard.js",
           "js/libs/dom.js",
