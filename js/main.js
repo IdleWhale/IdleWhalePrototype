@@ -1,6 +1,7 @@
 var getDefaultPlayer = () => ({
   lastUpdate: new Date().getTime(),
-  finishedTasks: {}
+  finishedTasks: {},
+  ongoingTasks: {}
 })
 var player = getDefaultPlayer()
 var diff = 0

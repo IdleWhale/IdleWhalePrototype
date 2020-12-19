@@ -61,3 +61,12 @@ function timeDisplay(time) {
     return Decimal.floor(time / 60) + " minutes, and " + Decimal.floor(time % 60) + " seconds"
   } else return Decimal.floor(time % 60) + " seconds"
 }
+
+function getProgressBar(percent) {
+  let doneChunks = Math.floor(percent / 4)
+  return ` [${"=".repeat(doneChunks)}${"-".repeat(25 - doneChunks)}] ${percent.toFixed(2)}%`
+}
+
+var getETA = (current, target, growSpeed) => `ETA: ${timeDisplay(target.sub(current).div(growSpeed).toNumber())}`
+
+var getFinalProgressBar = (current, target, growSpeed) => [getProgressBar(current.div(target).times(100).toNumber()), getETA(current, target, growSpeed), `${nf(current)}/${nf(target)}`].join(" | ")

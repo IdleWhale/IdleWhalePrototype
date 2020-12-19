@@ -8,11 +8,17 @@
     <meta name="description" content="The Idle Whale Prototype" />
     <meta name="author" content="Nyan Cat" />
 
+    <link rel="stylesheet" href="stylesheets/main.css">
+
     <script src="js/libs/break_eternity.min.js"></script> <!-- Download manually from https://raw.githubusercontent.com/Patashu/break_eternity.js/master/break_eternity.min.js -->
     <script src="js/libs/lodash.min.js"></script> <!-- Download manually from https://raw.githubusercontent.com/lodash/lodash/4.17.15-npm/lodash.min.js-->
 
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      document.addEventListener("DOMContentLoaded", async function() {
         const loadList = [
           // DO NOT TOUCH THESE LINES
           "js/libs/clipboard.js",
@@ -30,12 +36,15 @@
           var script = document.createElement("script")
           script.src = file + "?v=" + cacheBust
           document.body.appendChild(script)
+          await sleep(20)
         }
+
+        startGame()
       });
     </script>
   </head>
   
-  <body onload="startGame()">
+  <body>
     <div id="drowning">
 
     </div>

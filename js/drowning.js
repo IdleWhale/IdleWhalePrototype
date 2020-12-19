@@ -32,6 +32,8 @@ window.DrowningTask = DrowningTask
 
 var drowningTasks = []
 var drowningTaskGatherList = []
+var drowningTasksShown = []
+
 function gatherDrowningTasks() {
   drowningTasks = []
   for (let taskList of drowningTaskGatherList) {
@@ -39,21 +41,39 @@ function gatherDrowningTasks() {
   }
 }
 
-var drowningTasksShown = []
+function createDrowningTask(task) {
+  var taskDiv = document.createElement("div")
+  taskDiv.id = task.Id
+
+  var descSpan = document.createElement("span")
+  descSpan.innerText = task.Desc
+  taskDiv.appendChild(descSpan)
+
+  var actionBtn = document.createElement("button")
+  actionBtn.innerText = task.ActionText
+  actionBtn.addEventListener("click", startDrowningTask.bind(window, task))
+  taskDiv.appendChild(actionBtn)
+
+  ge("drowning").appendChild(taskDiv)
+  drowningTasksShown.push(task.Id)
+}
+
+function updateOngoingTask(task) {
+  var shownText = `${task.ProgressText} ${getFinalProgressBar(player.ongoingTasks[task.Id], task.Cost, task.Inc)}`
+
+  var elm = ge(task.Id)
+  elm.classList.add("taskProgress")
+  elm.innerText = shownText
+}
+
 function updateDrowningTasks() {
   for (let task of drowningTasks) {
-    if (drowningTasksShown.includes(task.Id) || !task.Available) continue
-    var taskDiv = document.createElement("div")
-
-    var descSpan = document.createElement("span")
-    descSpan.innerText = task.Desc
-    taskDiv.appendChild(descSpan)
-
-    var actionBtn = document.createElement("button")
-    actionBtn.innerText = task.ActionText
-    taskDiv.appendChild(actionBtn)
-
-    ge("drowning").appendChild(taskDiv)
-    drowningTasksShown.push(task.Id)
+    if (player.ongoingTasks.hasOwnProperty(task.Id)) updateOngoingTask(task)
+    else if (!drowningTasksShown.includes(task.Id) && task.Available) createDrowningTask(task)
   }
+}
+
+function startDrowningTask(task) {
+  if (player.ongoingTasks.hasOwnProperty(task.Id) || !task.Available) return false
+  player.ongoingTasks[task.Id] = new Decimal(0)
 }
