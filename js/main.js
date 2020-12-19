@@ -10,7 +10,7 @@ var diffMultiplier = 1
 let gameLoopIntervalId = 0
 
 function updateDisplay() {
-  updateDrowningTasks()
+  updateTasks()
   updateLore()
 }
 
@@ -30,7 +30,7 @@ function gameLoop(diff) {
 
 function startGame() {
   // Some init job
-  gatherDrowningTasks()
+  gatherTasks()
   startInterval()
 }
 
