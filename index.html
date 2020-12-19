@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Template</title>
+    <meta name="description" content="The Idle Whale Prototype" />
+    <meta name="author" content="Nyan Cat" />
+
+    <script src="js/libs/break_eternity.min.js"></script> <!-- Download manually from https://raw.githubusercontent.com/Patashu/break_eternity.js/master/break_eternity.min.js -->
+    <script src="js/libs/lodash.min.js"></script> <!-- Download manually from https://raw.githubusercontent.com/lodash/lodash/4.17.15-npm/lodash.min.js-->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const loadList = [
+          // DO NOT TOUCH THESE LINES
+          "js/libs/clipboard.js",
+          "js/libs/dom.js",
+          "js/libs/format.js",
+          "js/libs/saving.js",
+
+          // Add the scripts used by your game below
+          "js/main.js"
+        ]
+        const cacheBust = (new Date()).getTime()
+        for (let file of loadList) {
+          var script = document.createElement("script")
+          script.src = file + "?v=" + cacheBust
+          document.body.appendChild(script)
+        }
+      });
+    </script>
+  </head>
+  
+  <body onload="startGame()">
+    
+  </body>
+</html>
