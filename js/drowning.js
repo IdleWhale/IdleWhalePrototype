@@ -47,7 +47,7 @@ function gatherDrowningTasks() {
   }
 }
 
-function createDrowningTask(task) {
+function showDrowningTask(task) {
   var taskDiv = document.createElement("div")
   taskDiv.id = task.Id
 
@@ -64,6 +64,11 @@ function createDrowningTask(task) {
   drowningTasksShown.push(task.Id)
 }
 
+function hideDrowningTask(taskId) {
+  drowningTasksShown.remove(taskId)
+  ge(taskId).remove()
+}
+
 function updateOngoingTask(task) {
   var shownText = `${task.ProgressText} ${getFinalProgressBar(player.ongoingTasks[task.Id].Progress, task.Cost, task.Inc)}`
 
@@ -75,7 +80,9 @@ function updateOngoingTask(task) {
 function updateDrowningTasks() {
   for (let task of drowningTasks) {
     if (player.ongoingTasks.hasOwnProperty(task.Id)) updateOngoingTask(task)
-    else if (!drowningTasksShown.includes(task.Id) && task.Available) createDrowningTask(task)
+    else if (drowningTasksShown.includes(task.Id)) {
+      if (!task.Available) hideDrowningTask(task.Id)
+    } else if (task.Available) showDrowningTask(task)
   }
 }
 
@@ -85,8 +92,7 @@ function startDrowningTask(task) {
 }
 
 function finishTask(task) {
-  drowningTasksShown.remove(task.Id)
-  ge(task.Id).remove()
+  hideDrowningTask(task.Id)
   if (!player.finishedTasks.hasOwnProperty(task.Id)) player.finishedTasks[task.Id] = new Decimal(0)
   player.finishedTasks[task.Id] = player.finishedTasks[task.Id].plus(1)
   
